@@ -1,0 +1,20 @@
+---
+plugin: netbox.netbox.netbox
+# AAP will securely inject these variables via your Custom Credential
+api_endpoint: "{{ lookup('env', 'NETBOX_API') | regex_replace('/+$', '') | default(lookup('env', 'NETBOX_URL'), true) }}"
+token: "{{ lookup('env', 'NETBOX_TOKEN') }}"
+validate_certs: false
+
+fetch_all: false
+virtual_machines: true
+devices: true
+
+# Create Ansible groups automatically based on these NetBox attributes
+group_by:
+  - sites
+  - tags
+  - device_roles
+
+# Format the IP address properly for Ansible SSH connections
+compose:
+  ansible_host: primary_ip4.address | default(primary_ip.address) | default(name) | regex_replace('/.*$', '')
