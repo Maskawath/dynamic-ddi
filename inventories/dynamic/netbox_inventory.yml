@@ -1,11 +1,8 @@
 ---
 plugin: netbox.netbox.nb_inventory
 
-# Configuration is safe in Git. Replace with your actual lab URL.
-api_endpoint: "http://netbox.mylab.local:8000"
-
-# The 'token' is a secret and is securely omitted. 
-# It will be injected by the AAP Credential (NETBOX_TOKEN).
+# Corrected URL targeting the Nginx reverse proxy
+api_endpoint: "http://netbox.mylab.local"
 
 validate_certs: false
 fetch_all: false
