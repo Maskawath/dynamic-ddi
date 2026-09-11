@@ -1,26 +1,19 @@
 ---
-# Config:       netbox_inventory.yml
-# Purpose:      NetBox REST API dynamic inventory source — discovers managed hosts for
-#               the NetBox Raw Source Inventory. Synced via the SCM inventory source
-#               running in the netbox-EE. Raw (ungrouped); tags surface as host vars.
-# Dependencies: netbox.netbox + pynetbox (provided by the netbox-EE); the
-#               NetBox API credential supplies NETBOX_API and NETBOX_TOKEN via env.
-
 plugin: netbox.netbox.nb_inventory
 
-# INTENTIONALLY OMITTED: api_endpoint and token. 
-# The plugin natively reads NETBOX_API and NETBOX_TOKEN injected by the AAP Custom Credential.
+# Configuration is safe in Git. Replace with your actual lab URL.
+api_endpoint: "http://netbox.mylab.local:8000"
+
+# The 'token' is a secret and is securely omitted. 
+# It will be injected by the AAP Credential (NETBOX_TOKEN).
 
 validate_certs: false
-
 fetch_all: false
 virtual_machines: true
 devices: true
 
-# PRODUCTION EQUIVALENT: Bounding the inventory to managed nodes only
 query_filters:
   - tag: aap_managed
 
-# Format IP for SSH
 compose:
   ansible_host: primary_ip4.address | default(primary_ip.address) | default(name) | regex_replace('/.*$', '')
