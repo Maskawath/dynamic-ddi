@@ -2,27 +2,22 @@
 # Config:       netbox_inventory.yml
 # Purpose:      NetBox REST API dynamic inventory source — discovers managed hosts for
 #               the NetBox Raw Source Inventory. Synced via the SCM inventory source
-#               running in the netbox-EE. Raw (ungrouped); tags surface as host vars,
-#               providing the seam for future constructed inventories. Filtered to hosts
-#               where the aap_managed tag is set in NetBox.
-# Dependencies: netbox.netbox + pynetbox (provided by the netbox-EE); the
-#               NetBox API credential supplies NETBOX_API and NETBOX_TOKEN via env.
+#               running in the netbox-EE. Raw (ungrouped); tags surface as host vars.
 
 plugin: netbox.netbox.nb_inventory
 
-# AAP Injected Credentials
-api_endpoint: "{{ lookup('env', 'NETBOX_API') | regex_replace('/+$', '') | default(lookup('env', 'NETBOX_URL'), true) }}"
-token: "{{ lookup('env', 'NETBOX_TOKEN') }}"
+# The plugin natively reads NETBOX_API and NETBOX_TOKEN environment variables.
+# Alternatively, you can explicitly state your lab endpoint here:
+# api_endpoint: "http://netbox.mylab.local"
+
 validate_certs: false
 
 fetch_all: false
 virtual_machines: true
 devices: true
 
-# PRODUCTION EQUIVALENT: This matches the Infoblox extattrs filtering logic
 query_filters:
   - tag: aap_managed
 
-# Format IP for SSH
 compose:
   ansible_host: primary_ip4.address | default(primary_ip.address) | default(name) | regex_replace('/.*$', '')
