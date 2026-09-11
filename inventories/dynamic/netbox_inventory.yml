@@ -8,7 +8,7 @@
 # Dependencies: netbox.netbox + pynetbox (provided by the netbox-EE); the
 #               NetBox API credential supplies NETBOX_API and NETBOX_TOKEN via env.
 
-plugin: netbox.netbox.netbox
+plugin: netbox.netbox.nb_inventory
 
 # AAP Injected Credentials
 api_endpoint: "{{ lookup('env', 'NETBOX_API') | regex_replace('/+$', '') | default(lookup('env', 'NETBOX_URL'), true) }}"
