@@ -1,0 +1,11 @@
+---
+# Inventory: controller.yml
+# Purpose: Single-host inventory naming localhost as the AAP API target. Sets
+#          ansible_connection: local — an explicitly-listed localhost does NOT
+#          get the implicit-localhost local connection, so without this the
+#          controller modules try to SSH to localhost:22 and fail.
+
+all:
+  hosts:
+    localhost:
+      ansible_connection: local
