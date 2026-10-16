@@ -11,7 +11,6 @@ devices: true
 
 query_filters:
   - tag: aap_managed
-  - role: app_server
 
 compose:
   ansible_host: primary_ip4.address | default(primary_ip.address) | default(name) | regex_replace('/.*$', '')
