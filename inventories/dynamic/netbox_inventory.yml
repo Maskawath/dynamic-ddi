@@ -1,9 +1,6 @@
 ---
 plugin: netbox.netbox.nb_inventory
-
-# Corrected URL targeting the Nginx reverse proxy
 api_endpoint: "http://netbox.mylab.local"
-
 validate_certs: false
 fetch_all: false
 virtual_machines: true
@@ -11,6 +8,10 @@ devices: true
 
 query_filters:
   - tag: aap_managed
+
+keyed_groups:
+  - key: role.slug
+    prefix: netbox_role
 
 compose:
   ansible_host: primary_ip4.address | default(primary_ip.address) | default(name) | regex_replace('/.*$', '')
